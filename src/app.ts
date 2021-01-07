@@ -5,8 +5,7 @@ import cors from "cors";
 import { Fragment } from "./entity/Fragment";
 import { Section } from "./entity/Section";
 import { Book } from "./entity/Book";
-import bodyParser from 'body-parser'
-
+import bodyParser from "body-parser";
 
 const app = express();
 app.use(cors());
@@ -32,24 +31,49 @@ app.get("/", (req: express.Request, res: express.Response) =>
 
 app.get("/bookList", async (req: express.Request, res: express.Response) => {
   const bookRepository = getRepository(Book);
-  const books = await bookRepository.find();
-  res.json(books);
+  try {
+    const books = await bookRepository.find();
+    return res.json(books);
+  } catch (e) {
+    return res.json({
+      status: 0,
+      code: "ERROR",
+      msg: "unable to find books in database",
+    });
+  }
 });
 
 app.post("/createBook", async (req: express.Request, res: express.Response) => {
   const newBook = new Book();
-  await (await connection).manager.save(newBook);
-  res.json(newBook);
+  try {
+    await (await connection).manager.save(newBook);
+    return res.json(newBook);
+  } catch (e) {
+    return res.json({
+      status: 0,
+      code: "ERROR",
+      msg: "unable to find create book",
+    });
+  }
 });
 
 app.post("/addSection", async (req: express.Request, res: express.Response) => {
   const { bookId } = req.body;
+
   const bookRepository = getRepository(Book);
-  const book = await bookRepository.findOne(bookId);
-  const newSection = new Section();
-  newSection.book = book;
-  await (await connection).manager.save(newSection);
-  res.json({ ...newSection });
+  try {
+    const book = await bookRepository.findOne(bookId);
+    const newSection = new Section();
+    newSection.book = book;
+    await (await connection).manager.save(newSection);
+    return res.json({ ...newSection });
+  } catch (e) {
+    return res.json({
+      status: 0,
+      code: "ERROR",
+      msg: "unable to Add section",
+    });
+  }
 });
 
 app.post(
@@ -57,14 +81,21 @@ app.post(
   async (req: express.Request, res: express.Response) => {
     const { text, sectionId } = req.body;
     const sectionRepository = getRepository(Section);
-    const section = await sectionRepository.findOne(sectionId);
-
-    const fragment = new Fragment();
-    fragment.text = text;
-    fragment.like = 0;
-    fragment.section = section;
-    await (await connection).manager.save(fragment);
-    res.json(fragment);
+    try {
+      const section = await sectionRepository.findOne(sectionId); //fetch section with whick fragment will be associated
+      const fragment = new Fragment();
+      fragment.text = text;
+      fragment.like = 0;
+      fragment.section = section; //associate section with fragment
+      await (await connection).manager.save(fragment); //save fragment to database
+      return res.json(fragment);
+    } catch (e) {
+      return res.json({
+        status: 0,
+        code: "ERROR",
+        msg: "unable to Add fragment",
+      });
+    }
   }
 );
 
