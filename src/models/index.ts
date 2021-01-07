@@ -8,9 +8,13 @@ const models = {
 };
 type MyModels = typeof models;
 
-//associate all models with whatever they defined
-// Object.entries(models).map(([, model]) => {
-//   model.associate(models);
-// });
+// associate all models with whatever they defined
+Object.entries(models).map(([, model]) => {
+  //@ts-ignore
+  if (model.associate) {
+    //@ts-ignore
+    model.associate(models);
+  }
+});
 
 export { models, sequelize, MyModels };
