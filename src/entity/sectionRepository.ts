@@ -15,7 +15,6 @@ export class SectionRespository extends AbstractRepository<Section> {
     const sections = await this.manager.find(Section, {
       where: { book: bookId },
     });
-    console.log(sections);
     return sections;
   }
 }

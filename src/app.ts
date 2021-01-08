@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import bookRoutes from "./routes/book.route";
 import init from "./entity/connection";
 import sectionRoutes from "./routes/section.route";
+import fragmentRoutes from "./routes/fragment.route";
 init();
 const app = express();
 app.use(cors());
@@ -16,6 +17,7 @@ app.get("/", (req: express.Request, res: express.Response) =>
 );
 bookRoutes(app);
 sectionRoutes(app);
+fragmentRoutes(app);
 // app.get("/bookList", async (req: express.Request, res: express.Response) => {
 //   const bookRepository = getRepository(Book);
 //   try {

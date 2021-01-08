@@ -1,6 +1,7 @@
 import { Application } from "express";
+import { Fragmentcontroller } from "../controllers/fragment.controller";
 
-function fragmentRoutes(app:Application) {
-    app.post('/createFragment')
-    app.get('/fragment')
+export default function fragmentRoutes(app: Application) {
+  app.post("/createFragment", Fragmentcontroller.createFragment);
+  app.get("/fragment", Fragmentcontroller.getAllFragmentsInSection);
 }
