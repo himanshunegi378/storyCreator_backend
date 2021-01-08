@@ -1,5 +1,6 @@
 import { Application } from "express";
-function sectionRoutes(app: Application) {
-  app.post("/createSection");
-  app.get("/section");
+import { SectionController } from "../controllers/section.controller";
+export default function sectionRoutes(app: Application) {
+  app.post("/createSection", SectionController.createSection);
+  app.get("/section", SectionController.getAllSectionsInBook);
 }

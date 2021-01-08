@@ -4,6 +4,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import bookRoutes from "./routes/book.route";
 import init from "./entity/connection";
+import sectionRoutes from "./routes/section.route";
 init();
 const app = express();
 app.use(cors());
@@ -14,6 +15,7 @@ app.get("/", (req: express.Request, res: express.Response) =>
   res.send("Express + TypeScript Server")
 );
 bookRoutes(app);
+sectionRoutes(app);
 // app.get("/bookList", async (req: express.Request, res: express.Response) => {
 //   const bookRepository = getRepository(Book);
 //   try {
