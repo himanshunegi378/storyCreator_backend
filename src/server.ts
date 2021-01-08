@@ -1,6 +1,7 @@
 import http from "http";
 import app from "./app";
 import { config } from "dotenv";
+// import init from "./entity/connection";
 config({ path: "./.env" });
 
 const server = http.createServer(app);
@@ -68,7 +69,13 @@ function onListening() {
 /**
  * Listen on provided port, on all network interfaces.
  */
-
-server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening);
+// init()
+//   .then(() => {
+    
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+  server.listen(port);
+  server.on("error", onError);
+  server.on("listening", onListening);
