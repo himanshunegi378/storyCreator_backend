@@ -16,10 +16,17 @@ export class FragmentRespository extends AbstractRepository<Fragment> {
     });
     return this.manager.save(newFragment);
   }
-  async getAllFragmentsInSection(sectionId: string) {
+  async getAllFragmentsInSection(sectionId: number) {
     const fragments = await this.manager.find(Fragment, {
       where: { section: sectionId },
     });
     return fragments;
+  }
+
+  async countFragmentsInSection(sectionId: number) {
+    const fragmentsCount = await this.manager.count(Fragment, {
+      where: { section: sectionId },
+    });
+    return fragmentsCount;
   }
 }

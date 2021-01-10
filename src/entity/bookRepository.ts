@@ -12,4 +12,9 @@ export class BookRespository extends AbstractRepository<Book> {
   async getallbooks() {
     return this.manager.find(Book);
   }
+
+  async getbook(bookId: number) {
+    const book = await this.manager.findOne(Book, { where: { id: bookId } });
+    return book;
+  }
 }
