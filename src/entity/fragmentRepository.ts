@@ -21,7 +21,7 @@ export class FragmentRepository extends AbstractRepository<Fragment> {
     await this.manager
       .createQueryBuilder()
       .update(Fragment)
-      .set({ like: () => "fragment.like + 1" })
+      .set({ like: () => `fragment.like + ${like}` })
       .where("fragment.id = :id", { id: fragmentId })
       .execute();
   }

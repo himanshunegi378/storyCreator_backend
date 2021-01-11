@@ -10,7 +10,7 @@ const init = function () {
     database: "storycreator",
     entities: [__dirname + "/*.{ts,js}"],
     synchronize: true,
-    logging: true,
+    logging: false,
   });
 };
 
