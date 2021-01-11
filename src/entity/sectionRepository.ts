@@ -5,11 +5,11 @@ import {
 } from "typeorm";
 import { Book } from "./Book";
 import { BookRespository } from "./bookRepository";
-import { FragmentRespository } from "./fragmentRepository";
+import { FragmentRepository } from "./fragmentRepository";
 import { Section } from "./Section";
 
 @EntityRepository()
-export class SectionRespository extends AbstractRepository<Section> {
+export class SectionRepository extends AbstractRepository<Section> {
   async createSection(bookId: number) {
     const book = await this.manager
       .getCustomRepository(BookRespository)
@@ -19,7 +19,7 @@ export class SectionRespository extends AbstractRepository<Section> {
     const lastSectionAddedInBook = await this.LastSectionAddedInBook(book.id);
     if (lastSectionAddedInBook) {
       const fragmentCountInLastSection = await this.manager
-        .getCustomRepository(FragmentRespository)
+        .getCustomRepository(FragmentRepository)
         .countFragmentsInSection(lastSectionAddedInBook.id);
 
       if (fragmentCountInLastSection > 0) {
@@ -45,10 +45,19 @@ export class SectionRespository extends AbstractRepository<Section> {
 
   async doesSectionContainFragments(sectionId: number) {
     const fragments = await this.manager
-      .getCustomRepository(FragmentRespository)
+      .getCustomRepository(FragmentRepository)
       .getAllFragmentsInSection(sectionId);
 
     return fragments;
+  }
+
+  async lockSection(sectionId: number) {
+    const updatedSection = await this.manager
+      .createQueryBuilder(Section, "section")
+      .update<Section>(Section, { lock: true })
+      .where("section.id = :id", { id: sectionId })
+      .execute();
+    return updatedSection.affected === 1;
   }
 
   async LastSectionAddedInBook(bookId: number) {

@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
-import { SectionRespository } from "../entity/sectionRepository";
+import { SectionRepository } from "../entity/sectionRepository";
 
 const createSection = async (req: Request, res: Response) => {
   const { bookId } = req.body;
   const savedSection = await getCustomRepository(
-    SectionRespository
+    SectionRepository
   ).createSection(bookId);
   return res.json(savedSection);
 };
@@ -13,9 +13,21 @@ const createSection = async (req: Request, res: Response) => {
 const getAllSectionsInBook = async (req: Request, res: Response) => {
   const { bookId } = req.query;
   const sections = await getCustomRepository(
-    SectionRespository
+    SectionRepository
   ).getAllSectionsInbook(bookId as string);
   return res.json(sections);
 };
 
-export const SectionController = { createSection, getAllSectionsInBook };
+const lockSection = async (req: Request, res: Response) => {
+  const { sectionId } = req.body;
+  const lockedSection = await getCustomRepository(
+    SectionRepository
+  ).lockSection(sectionId);
+  res.json(lockedSection);
+};
+
+export const SectionController = {
+  createSection,
+  getAllSectionsInBook,
+  lockSection,
+};

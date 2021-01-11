@@ -5,6 +5,7 @@ import {
   ManyToOne,
   OneToOne,
   JoinColumn,
+  Column,
 } from "typeorm";
 import { Book } from "./Book";
 import { Fragment } from "./Fragment";
@@ -13,6 +14,9 @@ import { Fragment } from "./Fragment";
 export class Section {
   @PrimaryGeneratedColumn()
   id!: number;
+
+  @Column({ default: false })
+  lock?: boolean;
 
   @OneToOne(() => Section)
   @JoinColumn({ name: "previousSectionId" })
