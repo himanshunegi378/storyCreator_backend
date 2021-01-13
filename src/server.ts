@@ -1,9 +1,11 @@
 import http from "http";
 import app from "./app";
 import { config } from "dotenv";
+import { Database } from "./database";
+import { FirestoreDatabase } from "./database/fireStore";
 // import init from "./entity/connection";
 config({ path: "./.env" });
-
+Database.init(FirestoreDatabase);
 const server = http.createServer(app);
 
 /**
@@ -71,11 +73,11 @@ function onListening() {
  */
 // init()
 //   .then(() => {
-    
+
 //   })
 //   .catch((err) => {
 //     console.log(err);
 //   });
-  server.listen(port);
-  server.on("error", onError);
-  server.on("listening", onListening);
+server.listen(port);
+server.on("error", onError);
+server.on("listening", onListening);

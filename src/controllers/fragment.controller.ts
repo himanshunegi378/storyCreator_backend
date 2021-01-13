@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
-import { fireStore } from "../entity/firestore";
+import { Database } from "../database";
 import { FragmentRepository } from "../entity/fragmentRepository";
 
 const createFragment = async (req: Request, res: Response) => {
@@ -8,7 +8,7 @@ const createFragment = async (req: Request, res: Response) => {
   // const newFragment = await getCustomRepository(
   //   FragmentRepository
   // ).createfragment(sectionId, text);
-  const newFragment = await fireStore.addFragment(sectionId, text);
+  const newFragment = await Database.getDatabase().addFragment(sectionId, text);
   return res.json(newFragment);
 };
 
@@ -17,7 +17,7 @@ const getAllFragmentsInSection = async (req: Request, res: Response) => {
   // const fragments = await getCustomRepository(
   //   FragmentRepository
   // ).getAllFragmentsInSection(Number(sectionId as string));
-  const fragments = await fireStore.getAllFragmentInSection(
+  const fragments = await Database.getDatabase().getAllFragmentsInSection(
     sectionId as string
   );
   return res.json(fragments);
@@ -29,7 +29,7 @@ const addLike = async (req: Request, res: Response) => {
   //   fragmentId,
   //   1
   // );
-  const status = await fireStore.likeFragment(fragmentId);
+  const status = await Database.getDatabase().likeFragment(fragmentId);
   res.json({ done: status });
 };
 
