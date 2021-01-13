@@ -6,6 +6,7 @@ import bookRoutes from "./routes/book.route";
 import init from "./entity/connection";
 import sectionRoutes from "./routes/section.route";
 import fragmentRoutes from "./routes/fragment.route";
+import "./entity/firestore";
 init();
 const app = express();
 app.use(cors());
