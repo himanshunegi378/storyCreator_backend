@@ -1,7 +1,7 @@
 import DatabaseImpl from "./databseImpl";
 
 let database: DatabaseImpl;
-function init(databasetype: any) {
+function init(databasetype: new () => DatabaseImpl) {
   if (database) {
     throw new Error("Database already initalized");
   }

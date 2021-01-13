@@ -1,16 +1,15 @@
 import DatabaseImpl from "../databseImpl";
 import admin from "firebase-admin";
 const serviceAccount = require("./credentials.json");
-
-export class FirestoreDatabase implements DatabaseImpl {
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+export class FirestoreDatabase extends DatabaseImpl {
   private bookCollectionRef: FirebaseFirestore.CollectionReference<FirebaseFirestore.DocumentData>;
   private sectionCollectionRef: FirebaseFirestore.CollectionReference<FirebaseFirestore.DocumentData>;
   private fragmentCollectionRef: FirebaseFirestore.CollectionReference<FirebaseFirestore.DocumentData>;
   constructor() {
-    admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-    });
-
+    super();
     const db = admin.firestore();
 
     this.bookCollectionRef = db.collection("books");
