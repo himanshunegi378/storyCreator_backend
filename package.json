@@ -4,14 +4,15 @@
   "description": "",
   "scripts": {
     "dev": "nodemon ./src/server.ts",
+    "start": "node dist/server.js",
+    "postinstall": "npm run build",
     "prod": "node dist/server",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
     "clean": "rm -rf ./dist",
     "before-build": "npm run clean && npm run type-check",
     "build": "npm run before-build && tsc -p .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/index.ts"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
