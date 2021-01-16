@@ -71,13 +71,6 @@ function onListening() {
 /**
  * Listen on provided port, on all network interfaces.
  */
-// init()
-//   .then(() => {
-
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
 server.listen(port);
 server.on("error", onError);
 server.on("listening", onListening);
