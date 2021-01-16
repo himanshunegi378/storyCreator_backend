@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon ./src/server.ts",
     "start": "node ./dist/server",
-    "postinstall": "tsc -p",
+    "postinstall": "tsc -p .",
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check -- --watch",
     "clean": "rm -rf ./dist",
