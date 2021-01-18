@@ -1,6 +1,6 @@
 import DatabaseImpl from "./databseImpl";
 
-let database: DatabaseImpl;
+let database: DatabaseFacade;
 /**
  * only one type of database could be used once executed
  *
@@ -10,7 +10,7 @@ function init(concreteDatabase: new () => DatabaseImpl) {
   if (database) {
     throw new Error("Database already initalized");
   }
-  database = new concreteDatabase();
+  database = new DatabaseFacade(concreteDatabase);
 }
 
 function getDatabase() {
