@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import { getCustomRepository } from "typeorm";
 import { Database } from "../database";
-import { FragmentRepository } from "../entity/fragmentRepository";
 import { successReposponse } from "../utils";
 
 const createFragment = async (req: Request, res: Response) => {
