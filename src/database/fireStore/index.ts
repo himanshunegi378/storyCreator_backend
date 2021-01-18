@@ -17,12 +17,12 @@ export class FirestoreDatabase extends DatabaseImpl {
     this.fragmentCollectionRef = db.collection("fragments");
   }
 
-  async addBook(bookName: string): Promise<boolean> {
-    const result = await this.bookCollectionRef.doc().set({
+  async addBook(bookName: string): Promise<{ id: string; name: string }> {
+    const result = await this.bookCollectionRef.add({
       name: bookName,
     });
 
-    return result ? true : false;
+    return { id: result.id, name: bookName };
   }
   async getAllBooks(): Promise<{ id: string | number; name: string }[]> {
     const snapshot = await this.bookCollectionRef.get();
@@ -32,12 +32,14 @@ export class FirestoreDatabase extends DatabaseImpl {
     });
     return data;
   }
-  async addSection(bookId: string | number): Promise<boolean> {
-    const result = await this.sectionCollectionRef.doc().set({
+  async addSection(
+    bookId: string | number
+  ): Promise<{ id: string | number; lock: boolean; bookId: string | number }> {
+    const result = await this.sectionCollectionRef.add({
       lock: false,
       bookId: bookId,
     });
-    return result ? true : false;
+    return { id: result.id, lock: false, bookId: bookId };
   }
   async getAllSectionsInBook(
     bookId: string | number
@@ -55,17 +57,25 @@ export class FirestoreDatabase extends DatabaseImpl {
   async lockSection(sectionId: string | number): Promise<boolean> {
     const result = await this.sectionCollectionRef
       .doc(sectionId as string)
-      .set({ lock: true }, { merge: true });
+      .update({ lock: true });
+    console.log(result);
     return result ? true : false;
   }
   async addFragment(
     sectionId: string | number,
     text: string
-  ): Promise<boolean> {
-    const result = await this.fragmentCollectionRef
-      .doc()
-      .set({ sectionId: sectionId, text: text, like: 0 });
-    return result ? true : false;
+  ): Promise<{
+    id: string | number;
+    text: string;
+    like: number;
+    sectionId: string | number;
+  }> {
+    const result = await this.fragmentCollectionRef.add({
+      sectionId: sectionId,
+      text: text,
+      like: 0,
+    });
+    return { id: result.id, sectionId: sectionId, text: text, like: 0 };
   }
   async getAllFragmentsInSection(
     sectionId: string | number
